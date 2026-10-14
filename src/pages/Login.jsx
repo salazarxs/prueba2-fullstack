@@ -1,51 +1,45 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { emailValido, getUserList } from '../utils/users.js'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import FormField from '../components/form/FormField.jsx'
+import { useAuth } from '../hooks/useAuth.js'
+import { useForm } from '../hooks/useForm.js'
+import { validateLogin } from '../utils/validators.js'
 
 function Login() {
+  const { login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const { values, errors, handleChange, handleSubmit, setErrors } = useForm({ email: '', password: '' }, validateLogin)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const user = Object.fromEntries(new FormData(e.currentTarget))
-    if (!emailValido(user.email)) {
-      alert('El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com')
+  const submit = (data) => {
+    const user = login(data.email, data.password)
+    if (!user) {
+      setErrors({ password: 'Correo o contraseña incorrectos' })
       return
     }
-    const userExist = getUserList().find(currentUser => currentUser.email === user.email)
-    if (!userExist || userExist.password !== user.password) {
-      alert('Credenciales invalidas.')
-      return
-    }
-    navigate('/admin/dashboard')
+    // El admin vuelve a la ruta protegida que intentó abrir (o al dashboard)
+    navigate(user.rol === 'admin' ? (location.state?.from ?? '/admin') : '/')
   }
 
   return (
     <>
-      <title>Iniciar sesión | Ecommerce</title>
-      <h1 className="text-center pt-4">Inicio de sesión</h1>
-
-      <div className="row">
-        <div className="col-3"></div>
-        <div className="col-6">
-          <form className="row gap-3" id="form-register" onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" className="form-control" id="email" name="email" placeholder="jane@doe.com" />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Contraseña</label>
-              <input type="password" className="form-control" id="password" name="password" placeholder="******" />
-            </div>
-            <div>
-              <Link to="/registro" className="fs-7">No tienes una cuanta aun? Haz clic aqui!</Link>
-            </div>
-            <div>
-              <button type="submit" className="btn btn-success">Iniciar sesión</button>
-            </div>
-          </form>
-
+      <title>Iniciar sesión | GameStore</title>
+      <div className="container py-4">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-10 col-md-8 col-lg-5">
+            <h1 className="h2 text-center mb-4">Inicio de sesión</h1>
+            {location.state?.from && <div className="alert alert-info">Inicia sesión como administrador para continuar.</div>}
+            <form className="row" onSubmit={handleSubmit(submit)} noValidate>
+              <FormField label="Correo" name="email" type="email" placeholder="nombre@duoc.cl" autoComplete="email" value={values.email} onChange={handleChange} error={errors.email} />
+              <FormField label="Contraseña" name="password" type="password" placeholder="******" autoComplete="current-password" value={values.password} onChange={handleChange} error={errors.password} />
+              <div className="col-12 mb-3">
+                <Link to="/registro" className="small">¿No tienes una cuenta aún? ¡Haz clic aquí!</Link>
+              </div>
+              <div className="col-12 d-grid">
+                <button type="submit" className="btn btn-success">Iniciar sesión</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="col-3"></div>
       </div>
     </>
   )

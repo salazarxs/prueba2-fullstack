@@ -21,6 +21,8 @@ function ProductDetail() {
   const category = getCategory(product.categoriaId)
   const related = getProductsByCategory(product.categoriaId).filter(current => current.id !== product.id).slice(0, 4)
   const maxCantidad = Math.min(product.stock, MAX_POR_COMPRA)
+  // Al navegar a un relacionado se reutiliza el componente: acotar la cantidad elegida al nuevo stock
+  const cantidadValida = Math.min(cantidad, Math.max(maxCantidad, 1))
 
   return (
     <>
@@ -52,7 +54,7 @@ function ProductDetail() {
               <label htmlFor="cantidadSelect" className="fw-bold">Cantidad</label>
               <select
                 id="cantidadSelect" className="form-select w-auto" disabled={maxCantidad === 0}
-                value={cantidad} onChange={(e) => setCantidad(Number(e.target.value))}
+                value={cantidadValida} onChange={(e) => setCantidad(Number(e.target.value))}
               >
                 {Array.from({ length: Math.max(maxCantidad, 1) }, (_, i) => i + 1).map(n => (
                   <option key={n} value={n}>{n}</option>
@@ -62,7 +64,7 @@ function ProductDetail() {
 
             <button
               type="button" className="btn btn-primary w-100 py-2 fw-bold" disabled={maxCantidad === 0}
-              onClick={() => addToCart(product, cantidad)}
+              onClick={() => addToCart(product, cantidadValida)}
             >
               <i className="bi bi-cart-plus"></i> Añadir al carrito
             </button>
