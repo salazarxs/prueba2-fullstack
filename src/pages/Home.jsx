@@ -7,9 +7,9 @@ import { getOffers, getProducts } from '../data/products.js'
 import { useAddToCart } from '../hooks/useAddToCart.js'
 
 const slides = [
-  { title: 'Nuevos Lanzamientos', text: 'Descubre los últimos juegos disponibles en nuestra tienda', to: '/productos' },
-  { title: 'Ofertas de la semana', text: 'Hasta 70% de descuento en títulos seleccionados', to: '/ofertas' },
-  { title: 'Explora por categoría', text: 'Aventura, acción, deportes, indie y estrategia', to: '/categorias' },
+  { title: 'Nuevos Lanzamientos', text: 'Descubre los últimos juegos disponibles en nuestra tienda', to: '/productos', bg: 'bg-dark' },
+  { title: 'Ofertas de la semana', text: 'Hasta 70% de descuento en títulos seleccionados', to: '/ofertas', bg: 'bg-danger' },
+  { title: 'Explora por categoría', text: 'Aventura, acción, deportes, indie y estrategia', to: '/categorias', bg: 'bg-primary' },
 ]
 
 function Home() {
@@ -35,11 +35,11 @@ function Home() {
         <div className="carousel-inner">
           {slides.map((slide, i) => (
             <div key={slide.title} className={`carousel-item${i === 0 ? ' active' : ''}`}>
-              <img src={`https://placehold.co/1200x300/1f2937/1f2937/webp`} className="d-block w-100 carousel-img" alt="" />
+              <div className={`d-block w-100 carousel-img bg-gradient ${slide.bg}`}></div>
               <div className="carousel-caption">
                 <h2 className="fw-bold">{slide.title}</h2>
                 <p className="d-none d-sm-block">{slide.text}</p>
-                <Link to={slide.to} className="btn btn-primary btn-sm">Ver más</Link>
+                <Link to={slide.to} className="btn btn-light btn-sm">Ver más</Link>
               </div>
             </div>
           ))}

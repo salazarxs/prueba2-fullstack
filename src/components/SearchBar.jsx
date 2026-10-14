@@ -12,7 +12,7 @@ function SearchBar() {
   }
 
   return (
-    <form className="d-flex my-2 my-lg-0" role="search" onSubmit={handleSubmit}>
+    <form className="d-flex my-2 my-xl-0" role="search" onSubmit={handleSubmit}>
       <input
         className="form-control me-2" type="search" placeholder="Buscar juegos..." aria-label="Buscar"
         value={query} onChange={(e) => setQuery(e.target.value)}

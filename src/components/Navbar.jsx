@@ -32,7 +32,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-sm sticky-top">
+    <nav className="navbar navbar-expand-xl bg-body-tertiary shadow-sm sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand fw-bold" to="/" onClick={close}>
           <i className="bi bi-controller text-primary"></i> GameStore
@@ -44,7 +44,7 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className={`collapse navbar-collapse${open ? ' show' : ''}`} id="navbarMain">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-xl-0">
             {links.slice(0, 2).map(link => (
               <li key={link.to} className="nav-item">
                 <NavLink className="nav-link" to={link.to} end={link.end} onClick={close}>{link.label}</NavLink>
@@ -70,7 +70,7 @@ function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="d-flex flex-column flex-lg-row align-items-lg-center gap-2">
+          <div className="d-flex flex-column flex-xl-row align-items-xl-center gap-2">
             <SearchBar />
             {user ? (
               <div className="d-flex align-items-center gap-2">
