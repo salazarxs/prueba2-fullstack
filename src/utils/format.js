@@ -11,3 +11,5 @@ export const getPrecioFinal = (product) => (isOnSale(product) ? product.precioOf
 
 export const discountPercent = (product) =>
   isOnSale(product) ? Math.round((1 - product.precioOferta / product.precio) * 100) : 0
+
+
