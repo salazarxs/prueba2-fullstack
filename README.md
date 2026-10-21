@@ -65,3 +65,23 @@ src/
   layouts/      PublicLayout (navbar + footer) y AdminLayout (sidebar)
   pages/        Una página por ruta; pages/admin/* para el panel
 ```
+
+## Pruebas unitarias (Jasmine + Karma)
+
+Se usan **Jasmine** (pruebas), **Karma** (ejecución en el navegador), **webpack + Babel** (para JSX) y **React Testing Library** (renderizar componentes y simular eventos). Requiere tener **Firefox** instalado.
+
+```bash
+npm test             # ejecuta todas las pruebas una vez y genera cobertura
+npm run test:watch   # modo observador (re-ejecuta al guardar)
+```
+
+El reporte de cobertura queda en `coverage/index.html`. Incluye todos los archivos de `src/`, también los que aún no tienen pruebas.
+
+```
+src/tests/
+  components/   Renderizado, props y eventos de componentes
+  hooks/        Estado: useForm y CartProvider
+  pages/        Login: formulario, contexto y navegación
+  utils/        Lógica pura: carrito, formato, validadores, reportes
+  data/         CRUD sobre localStorage, filtros y simulación de pago
+```
